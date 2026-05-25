@@ -110,7 +110,7 @@
 
 <script>
   // KLISTRA IN DIN APPS SCRIPT URL HÄR:
-  const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/biluppgifter.se/s/AKfycbzb8FoG_4nPK0NmQRgK5OJ5bu5jgNIMOpgkvDeX4jng0TUU5C21EduP9wn6Xu7_vcKW/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEengDAlB10hW8rdrsIiWqQuUeqc2-E1Ep_mgUBNnPbPNXiJ6PhXGNOiWlvnp6Ut52/exec';
 
   let sel = null;
   const sg = document.getElementById('sg');
@@ -151,15 +151,10 @@
     btn.disabled = true;
     btn.textContent = 'Skickar...';
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          score: sel,
-          comment: document.getElementById('cb').value.trim(),
-          timestamp: new Date().toISOString()
-        })
+      const comment = encodeURIComponent(document.getElementById('cb').value.trim());
+      await fetch(`${APPS_SCRIPT_URL}?score=${sel}&comment=${comment}`, {
+        method: 'GET',
+        mode: 'no-cors'
       });
       show('st');
     } catch (e) {
