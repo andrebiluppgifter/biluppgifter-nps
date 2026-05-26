@@ -25,7 +25,7 @@
   /* Score grid */
   .ql { font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.4rem; }
   .scale-labels { display: flex; justify-content: space-between; font-size: 12px; color: #9ca3af; margin-bottom: 0.5rem; }
-  .sg { display: grid; grid-template-columns: repeat(11, 1fr); gap: 5px; margin-bottom: 1.5rem; }
+  .sg { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 1.5rem; }
   .sc { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1.5px solid #e5e7eb; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s; color: #374151; background: #fff; user-select: none; }
   .sc:hover { border-color: #F97316; color: #F97316; }
   .sc.sel { background: #F97316; color: #fff; border-color: #F97316; }
@@ -73,13 +73,17 @@
       <p class="card-sub">Det tar under en minut och betyder mycket för oss.</p>
 
       <p class="ql">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</p>
-      <div class="scale-labels"><span>Inte alls troligt</span><span>Extremt troligt</span></div>
+      <div class="scale-labels"><span>Inte alls troligt</span><span>Mycket troligt</span></div>
       <div class="sg" id="sg"></div>
-      <p class="err" id="serr">Välj ett betyg (0–10) innan du skickar.</p>
+      <p class="err" id="serr">Välj ett betyg (1–10) innan du skickar.</p>
 
       <p class="ql">Vad är den främsta anledningen till ditt betyg?</p>
       <p class="opt-label">Valfritt</p>
       <textarea id="cb" placeholder="Skriv din kommentar här..."></textarea>
+
+      <p class="ql">Vill du bli kontaktad av Biluppgifter? Dela din e-postadress!</p>
+      <p class="opt-label">Valfritt</p>
+      <input id="email" type="email" placeholder="din@email.se" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;color:#374151;margin-bottom:1.5rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#e5e7eb'">
 
       <button class="btn" id="subbtn">Skicka svar</button>
     </div>
@@ -110,12 +114,12 @@
 
 <script>
   // KLISTRA IN DIN APPS SCRIPT URL HÄR:
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBWmuWBNk8FcOUqkUdWN_gmtGDfBe9exovCxh6drtyzAAs9ZDrGww_vad1ysNFg3cT/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9I1yZCWF30w7Q4hVhVWCZCnfEIG33LyOHBBsrQkIxDZlOZVghnn7dHkjCaHvcOyVM/exec';
 
   let sel = null;
   const sg = document.getElementById('sg');
 
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 1; i <= 10; i++) {
     const c = document.createElement('div');
     c.className = 'sc';
     c.textContent = i;
@@ -152,7 +156,8 @@
     btn.textContent = 'Skickar...';
     try {
       const comment = encodeURIComponent(document.getElementById('cb').value.trim());
-      await fetch(`${APPS_SCRIPT_URL}?score=${sel}&comment=${comment}`, {
+      const email = encodeURIComponent(document.getElementById('email').value.trim());
+      await fetch(`${APPS_SCRIPT_URL}?score=${sel}&comment=${comment}&email=${email}`, {
         method: 'GET',
         mode: 'no-cors'
       });
