@@ -210,6 +210,52 @@
     min-height: 18px;
   }
 
+  /* ============ MULTI-SELECT CHIPS ============ */
+  .multi-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .chip {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chip:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-2);
+  }
+  .chip.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .chip.selected:hover {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+    color: #fff;
+  }
+  .chip .check {
+    display: none;
+    width: 14px;
+    height: 14px;
+  }
+  .chip.selected .check {
+    display: inline-block;
+  }
+
   /* ============ INPUTS ============ */
   textarea, input[type=email] {
     width: 100%;
@@ -402,6 +448,17 @@
       </div>
 
       <div class="field-block">
+        <label class="q">Hur använder du Biluppgifter? <span class="optional">Valfritt — välj en eller flera</span></label>
+        <div class="multi-select" id="usageGroup">
+          <button type="button" class="chip" data-value="API"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>API</button>
+          <button type="button" class="chip" data-value="Filleverans"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Filleverans</button>
+          <button type="button" class="chip" data-value="PRO"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>PRO</button>
+          <button type="button" class="chip" data-value="Urval"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Urval</button>
+          <button type="button" class="chip" data-value="Liknande till salu"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Liknande till salu</button>
+        </div>
+      </div>
+
+      <div class="field-block">
         <label class="q" for="reason">Vad är den främsta anledningen till ditt betyg? <span class="optional">Valfritt</span></label>
         <textarea id="reason" rows="3" placeholder="Berätta gärna…"></textarea>
       </div>
@@ -484,6 +541,13 @@ for (let i = 1; i <= 10; i++) {
   npsScale.appendChild(btn);
 }
 
+// Chip-grupp för "Hur använder du Biluppgifter?" — multi-select
+document.querySelectorAll('#usageGroup .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+  });
+});
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 form.addEventListener('submit', async (e) => {
@@ -504,11 +568,17 @@ form.addEventListener('submit', async (e) => {
   // Apps Script-svaren förväntar sig GET med query-params (doGet med e.parameter).
   // Parameter-namnen MÅSTE matcha det befintliga scriptet: score, comment, email, optout.
   // optout='1' om användaren har checkat "vill inte bli kontaktad", annars utelämnas.
+  // Samla valda chips (komma-separerad sträng)
+  const usage = Array.from(document.querySelectorAll('#usageGroup .chip.selected'))
+    .map(c => c.dataset.value)
+    .join(', ');
+
   const params = new URLSearchParams({
     score: String(selectedScore),
     comment: $('reason').value.trim(),
     email: email,
     optout: $('optedOut').checked ? '1' : '0',
+    usage: usage,
   });
 
   try {
