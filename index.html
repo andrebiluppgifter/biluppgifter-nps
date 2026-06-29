@@ -1,177 +1,540 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NPS – Biluppgifter</title>
+<link rel="icon" href="/plate.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+  :root {
+    --bg: #e9eaec;
+    --panel: #ffffff;
+    --panel-2: #f6f7f9;
+    --header-bg: #1a1a1a;
+    --border: #e1e3e6;
+    --border-light: #eef0f2;
+    --text: #1a1a1a;
+    --muted: #6b6f76;
+    --muted-2: #9a9ea5;
+    --accent: #ff8000;
+    --accent-2: #e57100;
+    --accent-soft: #fff4e5;
+    --accent-soft-2: #ffe8cc;
+    --ok: #16a34a;
+    --danger: #dc2626;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+    --shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: "Reddit Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    line-height: 1.5;
+  }
 
-  /* Header */
-  .header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 1.5rem; height: 56px; display: flex; align-items: center; gap: 10px; }
-  .logo { width: 32px; height: 32px; background: #F97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; flex-shrink: 0; }
-  .header-title { font-size: 15px; font-weight: 700; color: #F97316; }
-  .header-sub { font-size: 12px; color: #9ca3af; }
+  /* ============ HEADER ============ */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    background: var(--header-bg);
+    flex-shrink: 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .brand .logo-tile {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand .logo-tile svg {
+    width: 26px;
+    height: 26px;
+    fill: #fff;
+  }
+  .brand-text {
+    color: #fff;
+    line-height: 1.15;
+  }
+  .brand-text .wordmark {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+  }
+  .brand-text .sublabel {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  header .actions a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13.5px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    transition: background 0.15s ease;
+  }
+  header .actions a:hover { background: rgba(255,255,255,0.16); color: #fff; }
 
-  /* Main */
-  main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; max-width: 680px; margin: 0 auto; width: 100%; }
+  /* ============ MAIN ============ */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 60px;
+  }
+  .card {
+    background: var(--panel);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    max-width: 640px;
+    width: 100%;
+    padding: 36px 32px 32px;
+  }
 
-  /* Card */
-  .card { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); padding: 2rem; width: 100%; }
-  .card-title { font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 0.25rem; }
-  .card-sub { font-size: 14px; color: #6b7280; margin-bottom: 1.75rem; }
+  /* ============ HERO ============ */
+  .hero h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    display: inline-block;
+  }
+  .hero .swoosh {
+    display: block;
+    width: 180px;
+    max-width: 60%;
+    margin: 4px 0 0;
+  }
+  .hero .lede {
+    color: var(--muted);
+    margin: 14px 0 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+  }
 
-  /* Score grid */
-  .ql { font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 0.4rem; }
-  .scale-labels { display: flex; justify-content: space-between; font-size: 12px; color: #9ca3af; margin-bottom: 0.5rem; }
-  .sg { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 1.5rem; }
-  .sc { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1.5px solid #e5e7eb; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.12s; color: #374151; background: #fff; user-select: none; }
-  .sc:hover { border-color: #F97316; color: #F97316; }
-  .sc.sel { background: #F97316; color: #fff; border-color: #F97316; }
+  /* ============ FORM ============ */
+  .field-block {
+    margin-top: 28px;
+  }
+  .field-block label.q {
+    display: block;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+  .field-block .helper {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .field-block .optional {
+    font-size: 12.5px;
+    color: var(--muted-2);
+    font-weight: 400;
+    margin-left: 6px;
+  }
 
-  /* Comment */
-  .opt-label { font-size: 12px; color: #9ca3af; margin-bottom: 0.35rem; }
-  textarea { width: 100%; min-height: 90px; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; color: #374151; resize: vertical; margin-bottom: 1.5rem; font-family: inherit; transition: border-color 0.15s; }
-  textarea:focus { outline: none; border-color: #F97316; }
+  /* ============ NPS SCALE ============ */
+  .nps-scale {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .nps-btn {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .nps-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-2);
+  }
+  .nps-btn.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(255,128,0,0.3);
+  }
+  .nps-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+  .nps-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 18px;
+  }
 
-  /* Button */
-  .btn { width: 100%; padding: 12px; background: #F97316; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-  .btn:hover { background: #ea6c0a; }
-  .btn:disabled { background: #fbd3b4; cursor: not-allowed; }
+  /* ============ INPUTS ============ */
+  textarea, input[type=email] {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-size: 14.5px;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+  textarea:focus, input[type=email]:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--panel);
+  }
 
-  .err { color: #ef4444; font-size: 13px; margin: -1rem 0 1rem; display: none; }
+  /* ============ CHECKBOX ============ */
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+  }
+  .checkbox-row input[type=checkbox] {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .checkbox-row span strong { font-weight: 600; }
 
-  /* Screens */
-  .screen { display: none; }
-  .screen.active { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; }
+  .privacy-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 18px;
+    line-height: 1.55;
+  }
+  .privacy-note a { color: var(--accent); text-decoration: none; }
+  .privacy-note a:hover { text-decoration: underline; }
 
-  /* Thanks */
-  .thanks-card { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); padding: 3rem 2rem; text-align: center; width: 100%; }
-  .check-icon { width: 52px; height: 52px; background: #FFF7ED; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 24px; }
+  /* ============ SUBMIT ============ */
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 14px 16px;
+    border-radius: 999px;
+    font-size: 15.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-family: inherit;
+    margin-top: 24px;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--accent-2); }
+  .submit-btn:disabled {
+    background: var(--muted-2);
+    cursor: not-allowed;
+  }
 
-  /* Footer */
-  footer { text-align: center; padding: 1rem; font-size: 12px; color: #9ca3af; }
-  footer a { color: #F97316; text-decoration: none; }
+  /* ============ SUCCESS / ERROR ============ */
+  .state {
+    text-align: center;
+    padding: 32px 24px;
+  }
+  .state .icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .state.success .icon {
+    background: rgba(22, 163, 74, 0.12);
+    color: var(--ok);
+  }
+  .state.error .icon {
+    background: rgba(220, 38, 38, 0.12);
+    color: var(--danger);
+  }
+  .state .icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  .state h2 {
+    font-size: 22px;
+    margin: 0 0 10px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+  .state p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .state .retry-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 20px;
+  }
+  .state .retry-btn:hover { background: var(--accent-2); }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 20px 20px 28px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 640px) {
+    header { padding: 12px 14px; }
+    .brand .logo-tile { width: 38px; height: 38px; border-radius: 8px; }
+    .brand .logo-tile svg { width: 22px; height: 22px; }
+    .brand-text .wordmark { font-size: 18px; }
+    .brand-text .sublabel { display: none; }
+    header .actions a { padding: 6px 10px; font-size: 12.5px; }
+    main { padding: 24px 14px 40px; }
+    .card { padding: 28px 22px 24px; }
+    .hero h1 { font-size: 24px; }
+    .nps-btn { font-size: 14px; padding: 11px 0; }
+    .nps-scale { gap: 4px; }
+  }
 </style>
 </head>
 <body>
-
-<header class="header">
-  <div class="logo">b</div>
-  <div>
-    <div class="header-title">Biluppgifter</div>
-    <div class="header-sub">Hitta rätt data för ert behov</div>
+<header>
+  <a href="/" class="brand">
+    <div class="logo-tile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="m73.474 0c-7.4644 0-13.474 6.0093-13.474 13.474v485.05c0 7.4644 6.0093 13.474 13.474 13.474h188.69c81.55 0 155.51-49.421 186.72-124.76 31.208-75.343 13.852-162.59-43.813-220.25l-57.163-57.163c-5.2781-5.2781-13.777-5.2781-19.055 0l-76.218 76.218c-5.2781 5.2781-5.2781 13.777 0 19.055l57.166 57.163c19.404 19.404 25.104 48.063 14.603 73.416-10.501 25.353-34.795 41.589-62.237 41.589 0 0-47.283-0.0164-53.955 0s-13.387-6.5755-13.474-13.474c-0.0866-6.8982 0-350.32 0-350.32 0-7.4644-6.0093-13.474-13.474-13.474z"/></svg>
+    </div>
+    <div class="brand-text">
+      <div class="wordmark">biluppgifter</div>
+      <div class="sublabel">Hitta rätt data för ert behov</div>
+    </div>
+  </a>
+  <div class="actions">
+    <a href="https://www.biluppgifter.se" target="_blank">biluppgifter.se</a>
   </div>
 </header>
 
 <main>
+  <div class="card" id="formCard">
+    <div class="hero">
+      <h1>
+        Hjälp oss bli bättre
+        <svg class="swoosh" viewBox="0 0 1418 125" fill="#ff8000" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1412.29 72.17c-11.04-5.78-20.07-14.33-85.46-25.24-22.37-3.63-44.69-7.56-67.07-11.04-167.11-22.06-181.65-21.24-304.94-30.56C888.78 1.39 822.57 1.1 756.44 0c-46.63-.11-93.27 1.56-139.89 2.5C365.5 13.55 452.86 7.68 277.94 23.15 202.57 33.32 127.38 45.01 52.07 55.69c-11.23 2.41-22.63 4.17-33.71 7.22C6.1 66.33 5.64 66.19 3.89 67.79c-7.99 5.78-2.98 20.14 8.72 17.5 33.99-9.47 32.28-8.57 178.06-29.66 4.26 4.48 7.29 3.38 18.42 3.11 13.19-.32 26.38-.53 39.56-1.12 53.51-3.81 106.88-9.62 160.36-13.95 18.41-1.3 36.8-3.12 55.21-4.7 23.21-1.16 46.43-2.29 69.65-3.4 120.28-2.16 85.46-3.13 234.65-1.52 23.42.99 1.57-.18 125.72 6.9 96.61 8.88 200.92 27.94 295.42 46.12 40.87 7.91 116.67 23.2 156.31 36.78 3.81 1.05 8.28-.27 10.51-3.58 3.17-3.72 2.66-9.7-.78-13.13-3.25-3.12-8.14-3.44-12.18-5.08-17.89-5.85-44.19-12.09-63.67-16.56l26.16 3.28c23.02 3.13 46.28 3.92 69.34 6.75 10.8.96 25.43 1.81 34.34-4.39 2.26-1.54 4.86-2.75 6.21-5.27 2.76-4.59 1.13-11.06-3.59-13.68ZM925.4 23.77c37.64 1.4 153.99 10.85 196.64 17.19 24.25 4.77 74.13 11.21 101.72 18.14-11.87-1.15-23.77-1.97-35.65-3.06-133.46-15.9-266.8-33.02-400.47-47.21Z"/>
+        </svg>
+      </h1>
+      <p class="lede">Det tar under en minut och betyder mycket för oss.</p>
+    </div>
 
-  <div id="sf" class="screen active">
-    <div class="card">
-      <p class="card-title">Hjälp oss bli bättre</p>
-      <p class="card-sub">Det tar under en minut och betyder mycket för oss.</p>
+    <form id="npsForm" autocomplete="off">
+      <div class="field-block">
+        <label class="q" for="nps">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</label>
+        <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="NPS-betyg från 1 till 10">
+          <!-- Knappar genereras med JS för tydligare event-handling -->
+        </div>
+        <div class="nps-scale-labels">
+          <span>Inte alls troligt</span>
+          <span>Mycket troligt</span>
+        </div>
+        <div class="nps-error" id="npsError"></div>
+      </div>
 
-      <p class="ql">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</p>
-      <div class="scale-labels"><span>Inte alls troligt</span><span>Mycket troligt</span></div>
-      <div class="sg" id="sg"></div>
-      <p class="err" id="serr">Välj ett betyg (1–10) innan du skickar.</p>
+      <div class="field-block">
+        <label class="q" for="reason">Vad är den främsta anledningen till ditt betyg? <span class="optional">Valfritt</span></label>
+        <textarea id="reason" rows="3" placeholder="Berätta gärna…"></textarea>
+      </div>
 
-      <p class="ql">Vad är den främsta anledningen till ditt betyg?</p>
-      <p class="opt-label">Valfritt</p>
-      <textarea id="cb" placeholder="Skriv din kommentar här..."></textarea>
+      <div class="field-block">
+        <label class="q" for="email">Din e-postadress <span class="optional">Valfritt</span></label>
+        <input type="email" id="email" placeholder="din@arbetsmail.se" />
+      </div>
 
-      <p class="ql">Din e-postadress</p>
-      <p class="opt-label">Valfritt</p>
-      <input id="email" type="email" placeholder="din@email.se" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;color:#374151;margin-bottom:0.75rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#e5e7eb'">
-      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;margin-bottom:1.5rem;">
-        <input id="optout" type="checkbox" style="margin-top:2px;accent-color:#F97316;width:15px;height:15px;flex-shrink:0;">
-        <span style="font-size:12px;color:#6b7280;">Jag vill <strong>inte</strong> bli kontaktad av Biluppgifter angående min feedback.</span>
+      <label class="checkbox-row">
+        <input type="checkbox" id="optedOut">
+        <span>Jag vill <strong>inte</strong> bli kontaktad av Biluppgifter angående min feedback.</span>
       </label>
-      <p style="font-size:12px;color:#9ca3af;margin-bottom:1.5rem;margin-top:-1rem;">Din e-postadress används endast för uppföljning av din feedback och delas inte med tredje part. <a href="https://www.biluppgifter.se" style="color:#F97316;text-decoration:none;">Integritetspolicy</a>.</p>
 
-      <button class="btn" id="subbtn">Skicka svar</button>
-    </div>
+      <p class="privacy-note">Din e-postadress används endast för uppföljning av din feedback och delas inte med tredje part. <a href="https://www.biluppgifter.se" target="_blank">Integritetspolicy</a>.</p>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Skicka svar</button>
+    </form>
   </div>
 
-  <div id="st" class="screen">
-    <div class="thanks-card">
-      <div class="check-icon">✓</div>
-      <p style="font-size:18px;font-weight:600;color:#111827;margin-bottom:.4rem">Tack för ditt svar!</p>
-      <p style="font-size:14px;color:#6b7280">Din feedback hjälper oss förbättra Biluppgifter.</p>
+  <div class="card state success" id="successCard" style="display:none">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
+    <h2>Tack för ditt svar!</h2>
+    <p>Din feedback hjälper oss förbättra Biluppgifter.</p>
   </div>
 
-  <div id="se" class="screen">
-    <div class="thanks-card">
-      <div class="check-icon" style="background:#FEF2F2">✗</div>
-      <p style="font-size:18px;font-weight:600;color:#111827;margin-bottom:.4rem">Något gick fel</p>
-      <p style="font-size:14px;color:#6b7280;margin-bottom:1.5rem">Försök igen eller kontakta info@biluppgifter.se</p>
-      <button class="btn" onclick="resetForm()">Försök igen</button>
+  <div class="card state error" id="errorCard" style="display:none">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </div>
+    <h2>Något gick fel</h2>
+    <p>Försök igen eller kontakta info@biluppgifter.se</p>
+    <button type="button" class="retry-btn" id="retryBtn">Försök igen</button>
   </div>
-
 </main>
 
 <footer>
-  Vi behandlar dina uppgifter enligt vår <a href="https://www.biluppgifter.se">integritetspolicy</a>. Kontakt: info@biluppgifter.se
+  Vi behandlar dina uppgifter enligt vår <a href="https://www.biluppgifter.se" target="_blank">integritetspolicy</a>. Kontakt: info@biluppgifter.se
 </footer>
 
 <script>
-  // KLISTRA IN DIN APPS SCRIPT URL HÄR:
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyoZr-LA6IpHWCmob_1tpzTgoMK3qXV64YUjnRpJAkYfzP0QY_0JetdQsM8qUGw2_kY/exec';
+// Webhook-URL för NPS-Apps Script (separat från API-assistant-pipelinen).
+// Detta är det Apps Script bundet till NPS-Sheet:et (1XZT6XQs...).
+// OBS: byt ut URL:en mot din faktiska deployment-URL för NPS-scriptet.
+const NPS_WEBHOOK_URL = 'REPLACE_WITH_NPS_APPS_SCRIPT_URL';
 
-  let sel = null;
-  const sg = document.getElementById('sg');
+const $ = (id) => document.getElementById(id);
+const npsScale = $('npsScale');
+const npsError = $('npsError');
+const formCard = $('formCard');
+const successCard = $('successCard');
+const errorCard = $('errorCard');
+const form = $('npsForm');
+const submitBtn = $('submitBtn');
+const retryBtn = $('retryBtn');
 
-  for (let i = 1; i <= 10; i++) {
-    const c = document.createElement('div');
-    c.className = 'sc';
-    c.textContent = i;
-    c.onclick = () => {
-      document.querySelectorAll('.sc').forEach(x => x.className = 'sc');
-      c.classList.add('sel');
-      sel = i;
-      document.getElementById('serr').style.display = 'none';
-    };
-    sg.appendChild(c);
+let selectedScore = null;
+
+// Bygg 1-10 knappar
+for (let i = 1; i <= 10; i++) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nps-btn';
+  btn.textContent = i;
+  btn.dataset.score = i;
+  btn.setAttribute('role', 'radio');
+  btn.setAttribute('aria-checked', 'false');
+  btn.addEventListener('click', () => {
+    selectedScore = i;
+    npsError.textContent = '';
+    document.querySelectorAll('.nps-btn').forEach(b => {
+      b.classList.remove('selected');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('selected');
+    btn.setAttribute('aria-checked', 'true');
+  });
+  npsScale.appendChild(btn);
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!selectedScore) {
+    npsError.textContent = 'Välj ett betyg (1–10) innan du skickar.';
+    return;
+  }
+  const email = $('email').value.trim();
+  if (email && !EMAIL_RE.test(email)) {
+    npsError.textContent = 'Ange en giltig e-postadress eller lämna fältet tomt.';
+    return;
   }
 
-  function show(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Skickar…';
 
-  function resetForm() {
-    sel = null;
-    document.querySelectorAll('.sc').forEach(x => x.className = 'sc');
-    document.getElementById('cb').value = '';
-    document.getElementById('subbtn').disabled = false;
-    document.getElementById('subbtn').textContent = 'Skicka svar';
-    show('sf');
-  }
+  // Apps Script-svaren förväntar sig GET med query-params (doGet med e.parameter).
+  // Parameter-namnen MÅSTE matcha det befintliga scriptet: score, comment, email, optout.
+  // optout='1' om användaren har checkat "vill inte bli kontaktad", annars utelämnas.
+  const params = new URLSearchParams({
+    score: String(selectedScore),
+    comment: $('reason').value.trim(),
+    email: email,
+    optout: $('optedOut').checked ? '1' : '0',
+  });
 
-  document.getElementById('subbtn').onclick = async () => {
-    if (sel === null) {
-      document.getElementById('serr').style.display = 'block';
-      return;
-    }
-    const btn = document.getElementById('subbtn');
-    btn.disabled = true;
-    btn.textContent = 'Skickar...';
-    try {
-      const comment = encodeURIComponent(document.getElementById('cb').value.trim());
-      const email = encodeURIComponent(document.getElementById('email').value.trim());
-      const optout = document.getElementById('optout').checked ? '1' : '0';
-      await fetch(`${APPS_SCRIPT_URL}?score=${sel}&comment=${comment}&email=${email}&optout=${optout}`, {
-        method: 'GET',
-        mode: 'no-cors'
-      });
-      show('st');
-    } catch (e) {
-      show('se');
-    }
-  };
+  try {
+    // GET med no-cors — Apps Script saknar CORS-headers så vi kan inte läsa svaret,
+    // men datan landar i Sheet:et oavsett. Vid no-cors blir response opaque.
+    await fetch(NPS_WEBHOOK_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors',
+    });
+    formCard.style.display = 'none';
+    errorCard.style.display = 'none';
+    successCard.style.display = '';
+  } catch (err) {
+    console.error('NPS submit failed:', err);
+    formCard.style.display = 'none';
+    successCard.style.display = 'none';
+    errorCard.style.display = '';
+  }
+});
+
+retryBtn.addEventListener('click', () => {
+  errorCard.style.display = 'none';
+  formCard.style.display = '';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Skicka svar';
+});
 </script>
 </body>
 </html>
