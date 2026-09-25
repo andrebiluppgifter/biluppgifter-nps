@@ -404,6 +404,74 @@
     .nps-btn { font-size: 14px; padding: 11px 0; }
     .nps-scale { gap: 4px; }
   }
+
+  /* ============ v2: 0–10, språk, kontakt ============ */
+  .nps-scale { grid-template-columns: repeat(11, 1fr); }
+  .nps-btn:focus-visible, .chip:focus-visible, .lang-toggle button:focus-visible,
+  .submit-btn:focus-visible, .contact-btn:focus-visible, .retry-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  header .actions { display: flex; align-items: center; gap: 10px; }
+  .lang-toggle {
+    display: inline-flex;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 3px;
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.75);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 999px;
+    cursor: pointer;
+    min-width: 38px;
+  }
+  .lang-toggle button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .lang-toggle button:hover:not([aria-pressed="true"]) { color: #fff; }
+
+  .field-block .privacy-note { margin-top: 10px; }
+
+  .contact-block {
+    text-align: left;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+  }
+  .contact-block label.q { display: block; font-size: 15.5px; font-weight: 600; margin-bottom: 4px; }
+  .contact-block .helper { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+  .contact-row { display: flex; gap: 8px; }
+  .contact-row input { flex: 1; min-width: 0; }
+  .contact-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .contact-btn:hover:not(:disabled) { background: var(--accent-2); }
+  .contact-btn:disabled { background: var(--muted-2); cursor: not-allowed; }
+  .contact-done { margin-top: 24px !important; color: var(--ok) !important; font-weight: 600; }
+
+  @media (max-width: 640px) {
+    header .actions .site-link { display: none; }
+  }
+  @media (max-width: 480px) {
+    /* 0–5 på första raden, 6–10 på andra – större tryckytor */
+    .nps-scale { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .nps-btn { padding: 13px 0; font-size: 15px; }
+    .contact-row { flex-direction: column; }
+    .contact-btn { padding: 12px 18px; }
+  }
 </style>
 </head>
 <body>
@@ -414,11 +482,15 @@
     </div>
     <div class="brand-text">
       <div class="wordmark">biluppgifter</div>
-      <div class="sublabel">Hitta rätt data för ert behov</div>
+      <div class="sublabel" data-i18n="sublabel">Hitta rätt data för ert behov</div>
     </div>
   </a>
   <div class="actions">
-    <a href="https://www.biluppgifter.se" target="_blank">biluppgifter.se</a>
+    <div class="lang-toggle" role="group" id="langToggle" aria-label="Språk">
+      <button type="button" data-lang="sv" aria-pressed="true">SV</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a href="https://www.biluppgifter.se" target="_blank" rel="noopener" class="site-link">biluppgifter.se</a>
   </div>
 </header>
 
@@ -426,101 +498,247 @@
   <div class="card" id="formCard">
     <div class="hero">
       <h1>
-        Hjälp oss bli bättre
+        <span data-i18n="title">Hjälp oss bli bättre</span>
         <svg class="swoosh" viewBox="0 0 1418 125" fill="#ff8000" xmlns="http://www.w3.org/2000/svg">
           <path d="M1412.29 72.17c-11.04-5.78-20.07-14.33-85.46-25.24-22.37-3.63-44.69-7.56-67.07-11.04-167.11-22.06-181.65-21.24-304.94-30.56C888.78 1.39 822.57 1.1 756.44 0c-46.63-.11-93.27 1.56-139.89 2.5C365.5 13.55 452.86 7.68 277.94 23.15 202.57 33.32 127.38 45.01 52.07 55.69c-11.23 2.41-22.63 4.17-33.71 7.22C6.1 66.33 5.64 66.19 3.89 67.79c-7.99 5.78-2.98 20.14 8.72 17.5 33.99-9.47 32.28-8.57 178.06-29.66 4.26 4.48 7.29 3.38 18.42 3.11 13.19-.32 26.38-.53 39.56-1.12 53.51-3.81 106.88-9.62 160.36-13.95 18.41-1.3 36.8-3.12 55.21-4.7 23.21-1.16 46.43-2.29 69.65-3.4 120.28-2.16 85.46-3.13 234.65-1.52 23.42.99 1.57-.18 125.72 6.9 96.61 8.88 200.92 27.94 295.42 46.12 40.87 7.91 116.67 23.2 156.31 36.78 3.81 1.05 8.28-.27 10.51-3.58 3.17-3.72 2.66-9.7-.78-13.13-3.25-3.12-8.14-3.44-12.18-5.08-17.89-5.85-44.19-12.09-63.67-16.56l26.16 3.28c23.02 3.13 46.28 3.92 69.34 6.75 10.8.96 25.43 1.81 34.34-4.39 2.26-1.54 4.86-2.75 6.21-5.27 2.76-4.59 1.13-11.06-3.59-13.68ZM925.4 23.77c37.64 1.4 153.99 10.85 196.64 17.19 24.25 4.77 74.13 11.21 101.72 18.14-11.87-1.15-23.77-1.97-35.65-3.06-133.46-15.9-266.8-33.02-400.47-47.21Z"/>
         </svg>
       </h1>
-      <p class="lede">Det tar under en minut och betyder mycket för oss.</p>
+      <p class="lede" data-i18n="lede">Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt.</p>
     </div>
 
-    <form id="npsForm" autocomplete="off">
+    <form id="npsForm" autocomplete="off" novalidate>
       <div class="field-block">
-        <label class="q" for="nps">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</label>
-        <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="NPS-betyg från 1 till 10">
-          <!-- Knappar genereras med JS för tydligare event-handling -->
-        </div>
+        <label class="q" id="npsLabel" data-i18n="q_nps">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</label>
+        <div class="nps-scale" id="npsScale" role="radiogroup" aria-labelledby="npsLabel"></div>
         <div class="nps-scale-labels">
-          <span>Inte alls troligt</span>
-          <span>Mycket troligt</span>
+          <span data-i18n="scale_low">Inte alls troligt</span>
+          <span data-i18n="scale_high">Mycket troligt</span>
         </div>
-        <div class="nps-error" id="npsError"></div>
+        <div class="nps-error" id="npsError" role="alert"></div>
       </div>
 
       <div class="field-block">
-        <label class="q">Hur använder du Biluppgifter? <span class="optional">Valfritt — välj en eller flera</span></label>
+        <label class="q"><span data-i18n="q_usage">Hur använder du Biluppgifter?</span> <span class="optional" data-i18n="opt_multi">Valfritt — välj en eller flera</span></label>
         <div class="multi-select" id="usageGroup">
-          <button type="button" class="chip" data-value="API"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>API</button>
-          <button type="button" class="chip" data-value="Filleverans"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Filleverans</button>
-          <button type="button" class="chip" data-value="PRO"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>PRO</button>
-          <button type="button" class="chip" data-value="Urval"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Urval</button>
-          <button type="button" class="chip" data-value="Liknande till salu"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Liknande till salu</button>
+          <button type="button" class="chip" data-value="API" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_api">API</span></button>
+          <button type="button" class="chip" data-value="Filleverans" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_file">Filleverans</span></button>
+          <button type="button" class="chip" data-value="PRO" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_pro">PRO</span></button>
+          <button type="button" class="chip" data-value="Urval" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_urval">Urval</span></button>
+          <button type="button" class="chip" data-value="Liknande till salu" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_similar">Liknande till salu</span></button>
         </div>
       </div>
 
       <div class="field-block">
-        <label class="q" for="reason">Vad är den främsta anledningen till ditt betyg? <span class="optional">Valfritt</span></label>
-        <textarea id="reason" rows="3" placeholder="Berätta gärna…"></textarea>
+        <label class="q" for="reason"><span id="reasonQ">Vad är den främsta anledningen till ditt betyg?</span> <span class="optional" data-i18n="optional">Valfritt</span></label>
+        <textarea id="reason" rows="3" maxlength="2000" data-i18n-ph="ph_reason" placeholder="Berätta gärna…"></textarea>
+        <p class="privacy-note" data-i18n="anon_note">Vi sparar inte vem du är. Skriv inte namn eller kontaktuppgifter i fritexten om du vill vara anonym.</p>
       </div>
 
-      <div class="field-block">
-        <label class="q" for="email">Din e-postadress <span class="optional">Valfritt</span></label>
-        <input type="email" id="email" placeholder="din@arbetsmail.se" />
-      </div>
-
-      <label class="checkbox-row">
-        <input type="checkbox" id="optedOut">
-        <span>Jag vill <strong>inte</strong> bli kontaktad av Biluppgifter angående min feedback.</span>
-      </label>
-
-      <p class="privacy-note">Din e-postadress används endast för uppföljning av din feedback och delas inte med tredje part. <a href="https://www.biluppgifter.se" target="_blank">Integritetspolicy</a>.</p>
-
-      <button type="submit" class="submit-btn" id="submitBtn">Skicka svar</button>
+      <button type="submit" class="submit-btn" id="submitBtn" data-i18n="submit">Skicka svar</button>
     </form>
   </div>
 
   <div class="card state success" id="successCard" style="display:none">
-    <div class="icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <h2>Tack för ditt svar!</h2>
-    <p>Din feedback hjälper oss förbättra Biluppgifter.</p>
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h2 data-i18n="ok_title">Tack för ditt svar!</h2>
+    <p data-i18n="ok_text">Din feedback hjälper oss förbättra Biluppgifter.</p>
+
+    <form class="contact-block" id="contactForm" novalidate>
+      <label class="q" for="email" data-i18n="c_title">Vill du att vi hör av oss?</label>
+      <p class="helper" data-i18n="c_text">Helt frivilligt. E-postadressen sparas separat och kopplas inte till ditt svar.</p>
+      <div class="contact-row">
+        <input type="email" id="email" maxlength="200" data-i18n-ph="ph_email" placeholder="din@arbetsmail.se" autocomplete="email" />
+        <button type="submit" class="contact-btn" id="contactBtn" data-i18n="c_btn">Kontakta mig</button>
+      </div>
+      <div class="nps-error" id="contactError" role="alert"></div>
+    </form>
+    <p class="contact-done" id="contactDone" style="display:none" data-i18n="c_done">Tack! Vi hör av oss.</p>
+  </div>
+
+  <div class="card state success" id="alreadyCard" style="display:none">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h2 data-i18n="dup_title">Du har redan svarat</h2>
+    <p data-i18n="dup_text">Tack! Vi har redan fått ett svar från den här webbläsaren.</p>
   </div>
 
   <div class="card state error" id="errorCard" style="display:none">
-    <div class="icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </div>
-    <h2>Något gick fel</h2>
-    <p>Försök igen eller kontakta info@biluppgifter.se</p>
-    <button type="button" class="retry-btn" id="retryBtn">Försök igen</button>
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    <h2 data-i18n="err_title">Något gick fel</h2>
+    <p data-i18n="err_text">Ditt svar kunde inte skickas. Försök igen eller kontakta info@biluppgifter.se.</p>
+    <button type="button" class="retry-btn" id="retryBtn" data-i18n="retry">Försök igen</button>
   </div>
 </main>
 
-<footer>
-  Vi behandlar dina uppgifter enligt vår <a href="https://www.biluppgifter.se" target="_blank">integritetspolicy</a>. Kontakt: info@biluppgifter.se
+<footer data-i18n-html="footer">
+  Vi behandlar dina uppgifter enligt vår <a href="https://biluppgifter.se/integritetspolicy/" target="_blank" rel="noopener">integritetspolicy</a>. Kontakt: info@biluppgifter.se
 </footer>
 
 <script>
-// Webhook-URL för NPS-Apps Script (separat från API-assistant-pipelinen).
-// Detta är det Apps Script bundet till NPS-Sheet:et (1XZT6XQs...).
-// OBS: byt ut URL:en mot din faktiska deployment-URL för NPS-scriptet.
+// Webhook-URL till NPS-Apps Scriptet (bundet till NPS-arket).
+// Scriptet måste ha doPost från apps-script-nps.gs i samma mapp.
 const NPS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyoZr-LA6IpHWCmob_1tpzTgoMK3qXV64YUjnRpJAkYfzP0QY_0JetdQsM8qUGw2_kY/exec';
 
+// Hur länge en webbläsare räknas som "har redan svarat" (per omgång).
+const DUPLICATE_WINDOW_DAYS = 60;
+
+const PRIVACY_URL = 'https://biluppgifter.se/integritetspolicy/';
+
+const I18N = {
+  sv: {
+    sublabel: 'Hitta rätt data för ert behov',
+    title: 'Hjälp oss bli bättre',
+    lede: 'Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt.',
+    q_nps: 'Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?',
+    scale_low: 'Inte alls troligt',
+    scale_high: 'Mycket troligt',
+    q_usage: 'Hur använder du Biluppgifter?',
+    opt_multi: 'Valfritt — välj en eller flera',
+    u_api: 'API', u_file: 'Filleverans', u_pro: 'PRO', u_urval: 'Urval', u_similar: 'Liknande till salu',
+    q_reason: 'Vad är den främsta anledningen till ditt betyg?',
+    q_reason_low: 'Vad skulle vi behöva göra bättre?',
+    q_reason_mid: 'Vad skulle få dig att ge ett högre betyg?',
+    q_reason_high: 'Vad uppskattar du mest med Biluppgifter?',
+    optional: 'Valfritt',
+    ph_reason: 'Berätta gärna…',
+    anon_note: 'Vi sparar inte vem du är. Skriv inte namn eller kontaktuppgifter i fritexten om du vill vara anonym.',
+    submit: 'Skicka svar',
+    sending: 'Skickar…',
+    err_score: 'Välj ett betyg (0–10) innan du skickar.',
+    ok_title: 'Tack för ditt svar!',
+    ok_text: 'Din feedback hjälper oss förbättra Biluppgifter.',
+    c_title: 'Vill du att vi hör av oss?',
+    c_text: 'Helt frivilligt. E-postadressen sparas separat och kopplas inte till ditt svar.',
+    ph_email: 'din@arbetsmail.se',
+    c_btn: 'Kontakta mig',
+    c_done: 'Tack! Vi hör av oss.',
+    c_err_email: 'Ange en giltig e-postadress.',
+    c_err_send: 'Kunde inte skicka. Försök igen eller mejla info@biluppgifter.se.',
+    dup_title: 'Du har redan svarat',
+    dup_text: 'Tack! Vi har redan fått ett svar från den här webbläsaren.',
+    err_title: 'Något gick fel',
+    err_text: 'Ditt svar kunde inte skickas. Försök igen eller kontakta info@biluppgifter.se.',
+    retry: 'Försök igen',
+    footer: 'Vi behandlar dina uppgifter enligt vår <a href="' + PRIVACY_URL + '" target="_blank" rel="noopener">integritetspolicy</a>. Kontakt: info@biluppgifter.se',
+    lang_label: 'Språk',
+    score_aria: 'Betyg {n} av 10',
+  },
+  en: {
+    sublabel: 'Find the right data for your needs',
+    title: 'Help us improve',
+    lede: 'It takes less than a minute and means a lot to us. Your answer is anonymous.',
+    q_nps: 'How likely are you to recommend Biluppgifter to a colleague or friend?',
+    scale_low: 'Not at all likely',
+    scale_high: 'Extremely likely',
+    q_usage: 'How do you use Biluppgifter?',
+    opt_multi: 'Optional — choose one or more',
+    u_api: 'API', u_file: 'File delivery', u_pro: 'PRO', u_urval: 'Urval (selections)', u_similar: 'Similar for sale',
+    q_reason: 'What is the main reason for your score?',
+    q_reason_low: 'What should we do better?',
+    q_reason_mid: 'What would make you give us a higher score?',
+    q_reason_high: 'What do you value most about Biluppgifter?',
+    optional: 'Optional',
+    ph_reason: 'Tell us more…',
+    anon_note: 'We do not store who you are. Avoid writing your name or contact details in the text if you want to stay anonymous.',
+    submit: 'Send answer',
+    sending: 'Sending…',
+    err_score: 'Please choose a score (0–10) before sending.',
+    ok_title: 'Thank you for your answer!',
+    ok_text: 'Your feedback helps us improve Biluppgifter.',
+    c_title: 'Would you like us to get in touch?',
+    c_text: 'Completely optional. Your email is stored separately and is not linked to your answer.',
+    ph_email: 'you@company.com',
+    c_btn: 'Contact me',
+    c_done: 'Thanks! We will be in touch.',
+    c_err_email: 'Please enter a valid email address.',
+    c_err_send: 'Could not send. Please try again or email info@biluppgifter.se.',
+    dup_title: 'You have already answered',
+    dup_text: 'Thank you! We have already received an answer from this browser.',
+    err_title: 'Something went wrong',
+    err_text: 'Your answer could not be sent. Please try again or contact info@biluppgifter.se.',
+    retry: 'Try again',
+    footer: 'We process your data in accordance with our <a href="' + PRIVACY_URL + '" target="_blank" rel="noopener">privacy policy</a> (in Swedish). Contact: info@biluppgifter.se',
+    lang_label: 'Language',
+    score_aria: 'Score {n} out of 10',
+  },
+};
+
 const $ = (id) => document.getElementById(id);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+};
+
+// ---- URL-parametrar (identifierar ingen person) ----
+const qs = new URLSearchParams(location.search);
+const clean = (v) => (v || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+const KANAL = clean(qs.get('kanal'));
+const OMGANG = clean(qs.get('omgang'));
+const DUP_KEY = 'nps_answered_' + (OMGANG || 'default');
+
+// ---- Språk ----
+function initialLang() {
+  const fromUrl = clean(qs.get('lang'));
+  if (fromUrl === 'sv' || fromUrl === 'en') return fromUrl;
+  const saved = store.get('nps_lang');
+  if (saved === 'sv' || saved === 'en') return saved;
+  const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'sv';
+  return /^(sv|nb|no|nn|da)/i.test(nav) ? 'sv' : 'en';
+}
+let lang = initialLang();
+const t = (key) => (I18N[lang] && I18N[lang][key]) || I18N.sv[key] || '';
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  $('langToggle').setAttribute('aria-label', t('lang_label'));
+  document.querySelectorAll('#langToggle button').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
+  });
+  document.querySelectorAll('.nps-btn').forEach(b => {
+    b.setAttribute('aria-label', t('score_aria').replace('{n}', b.dataset.score));
+  });
+  updateReasonQuestion();
+  if ($('npsError').textContent) $('npsError').textContent = t('err_score');
+  if (submitBtn.disabled) submitBtn.textContent = t('sending');
+}
+
+document.querySelectorAll('#langToggle button').forEach(b => {
+  b.addEventListener('click', () => {
+    lang = b.dataset.lang;
+    store.set('nps_lang', lang);
+    applyLang();
+  });
+});
+
+// ---- Betygsskala 0–10 ----
 const npsScale = $('npsScale');
 const npsError = $('npsError');
-const formCard = $('formCard');
-const successCard = $('successCard');
-const errorCard = $('errorCard');
-const form = $('npsForm');
 const submitBtn = $('submitBtn');
-const retryBtn = $('retryBtn');
-
 let selectedScore = null;
 
-// Bygg 1-10 knappar
-for (let i = 1; i <= 10; i++) {
+function updateReasonQuestion() {
+  let key = 'q_reason';
+  if (selectedScore !== null) {
+    key = selectedScore <= 6 ? 'q_reason_low' : selectedScore <= 8 ? 'q_reason_mid' : 'q_reason_high';
+  }
+  $('reasonQ').textContent = t(key);
+}
+
+function selectScore(i) {
+  selectedScore = i;
+  npsError.textContent = '';
+  document.querySelectorAll('.nps-btn').forEach(b => {
+    const on = Number(b.dataset.score) === i;
+    b.classList.toggle('selected', on);
+    b.setAttribute('aria-checked', on ? 'true' : 'false');
+    b.tabIndex = on ? 0 : -1;
+  });
+  updateReasonQuestion();
+}
+
+for (let i = 0; i <= 10; i++) {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'nps-btn';
@@ -528,83 +746,126 @@ for (let i = 1; i <= 10; i++) {
   btn.dataset.score = i;
   btn.setAttribute('role', 'radio');
   btn.setAttribute('aria-checked', 'false');
-  btn.addEventListener('click', () => {
-    selectedScore = i;
-    npsError.textContent = '';
-    document.querySelectorAll('.nps-btn').forEach(b => {
-      b.classList.remove('selected');
-      b.setAttribute('aria-checked', 'false');
-    });
-    btn.classList.add('selected');
-    btn.setAttribute('aria-checked', 'true');
+  btn.tabIndex = i === 0 ? 0 : -1;
+  btn.addEventListener('click', () => selectScore(i));
+  btn.addEventListener('keydown', (e) => {
+    const cur = selectedScore === null ? i : selectedScore;
+    let next = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = Math.min(10, cur + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = Math.max(0, cur - 1);
+    if (e.key === 'Home') next = 0;
+    if (e.key === 'End') next = 10;
+    if (next !== null) {
+      e.preventDefault();
+      selectScore(next);
+      npsScale.children[next].focus();
+    }
   });
   npsScale.appendChild(btn);
 }
 
-// Chip-grupp för "Hur använder du Biluppgifter?" — multi-select
+// ---- Användning (flerval) ----
 document.querySelectorAll('#usageGroup .chip').forEach(chip => {
   chip.addEventListener('click', () => {
-    chip.classList.toggle('selected');
+    const on = chip.classList.toggle('selected');
+    chip.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 });
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// ---- Skicka till Apps Script ----
+// POST med text/plain undviker CORS-preflight, och Apps Script (ContentService)
+// svarar med JSON som går att läsa. Svaret räknas som lyckat först när scriptet
+// bekräftar { ok: true }.
+async function post(payload) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15000);
+  try {
+    const res = await fetch(NPS_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data || data.ok !== true) throw new Error((data && data.error) || 'not_ok');
+    return data;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
-form.addEventListener('submit', async (e) => {
+function show(id) {
+  ['formCard', 'successCard', 'alreadyCard', 'errorCard'].forEach(c => {
+    $(c).style.display = c === id ? '' : 'none';
+  });
+}
+
+$('npsForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!selectedScore) {
-    npsError.textContent = 'Välj ett betyg (1–10) innan du skickar.';
+  if (selectedScore === null) {
+    npsError.textContent = t('err_score');
+    npsScale.children[0].focus();
     return;
   }
-  const email = $('email').value.trim();
-  if (email && !EMAIL_RE.test(email)) {
-    npsError.textContent = 'Ange en giltig e-postadress eller lämna fältet tomt.';
-    return;
-  }
-
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Skickar…';
+  submitBtn.textContent = t('sending');
 
-  // Apps Script-svaren förväntar sig GET med query-params (doGet med e.parameter).
-  // Parameter-namnen MÅSTE matcha det befintliga scriptet: score, comment, email, optout.
-  // optout='1' om användaren har checkat "vill inte bli kontaktad", annars utelämnas.
-  // Samla valda chips (komma-separerad sträng)
   const usage = Array.from(document.querySelectorAll('#usageGroup .chip.selected'))
     .map(c => c.dataset.value)
     .join(', ');
 
-  const params = new URLSearchParams({
-    score: String(selectedScore),
-    comment: $('reason').value.trim(),
-    email: email,
-    optout: $('optedOut').checked ? '1' : '0',
-    usage: usage,
-  });
-
   try {
-    // GET med no-cors — Apps Script saknar CORS-headers så vi kan inte läsa svaret,
-    // men datan landar i Sheet:et oavsett. Vid no-cors blir response opaque.
-    await fetch(NPS_WEBHOOK_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors',
+    await post({
+      type: 'response',
+      score: selectedScore,
+      comment: $('reason').value.trim(),
+      usage: usage,
+      lang: lang,
+      kanal: KANAL,
+      omgang: OMGANG,
     });
-    formCard.style.display = 'none';
-    errorCard.style.display = 'none';
-    successCard.style.display = '';
+    store.set(DUP_KEY, String(Date.now()));
+    show('successCard');
   } catch (err) {
     console.error('NPS submit failed:', err);
-    formCard.style.display = 'none';
-    successCard.style.display = 'none';
-    errorCard.style.display = '';
+    show('errorCard');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = t('submit');
   }
 });
 
-retryBtn.addEventListener('click', () => {
-  errorCard.style.display = 'none';
-  formCard.style.display = '';
-  submitBtn.disabled = false;
-  submitBtn.textContent = 'Skicka svar';
+$('retryBtn').addEventListener('click', () => show('formCard'));
+
+// ---- Frivillig kontakt (separat, kopplas inte till svaret) ----
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+$('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = $('contactError');
+  const email = $('email').value.trim();
+  if (!EMAIL_RE.test(email)) { err.textContent = t('c_err_email'); return; }
+  err.textContent = '';
+  const btn = $('contactBtn');
+  btn.disabled = true;
+  try {
+    await post({ type: 'contact', email: email, lang: lang });
+    $('contactForm').style.display = 'none';
+    $('contactDone').style.display = '';
+  } catch (ex) {
+    console.error('Contact submit failed:', ex);
+    err.textContent = t('c_err_send');
+  } finally {
+    btn.disabled = false;
+  }
 });
+
+// ---- Start ----
+applyLang();
+(function checkDuplicate() {
+  const ts = Number(store.get(DUP_KEY));
+  if (ts && Date.now() - ts < DUPLICATE_WINDOW_DAYS * 86400000) show('alreadyCard');
+})();
 </script>
 </body>
 </html>
