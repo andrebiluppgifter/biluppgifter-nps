@@ -4,6 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NPS – Biluppgifter</title>
+<meta name="description" content="Hjälp oss bli bättre – svara på en kort, anonym enkät om Biluppgifter. Det tar under en minut." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Biluppgifter" />
+<meta property="og:title" content="Hjälp oss bli bättre – Biluppgifter" />
+<meta property="og:description" content="En kort, anonym enkät. Det tar under en minut." />
+<meta property="og:url" content="https://biluppgifter-nps.vercel.app/" />
+<meta property="og:image" content="https://biluppgifter-nps.vercel.app/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="sv_SE" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#1a1a1a" />
 <link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEBklEQVR4nOybW2wUVRjHf7O0VVA0otUWIWIiWtGIdwsYL0lV1AfaqEUiMVFfeDEhBl9UmjYkvuiDaOKLicFbwBgEYg0UowgRtJgQIISUQICW+yXcL6XQLv/TzUJLl90pnD09O8Mv+Xo6c8608/3nm3OdU0QOkvXcQ5JaAqp0OFJWJrsRPzkh2yNrlTXJGoN6WrJdEFwuIzmL++jkC/06kcJmCYOYHsxkU6bMPgLoiQ9T0iCbJisiGpyTfS1rUEQc6pnRSwA5P0LJXNnTRJPlFDM5+Jh96RMXBJDz1yv5SzaOaLNSVqVIaDcHiR4ZPxJ95w0TZN+nD7ojQE+/WskC4kWNomBhOgLqiR915kegp1+p9F/iyTjTzFUTXyYaAR4mvlQaAcqIL2UJ9fNHEVfke5EawpuJK/LdXl9/0reqTd7JXmbFLFhWh0/YE6B0TO4yt92Pb7gd7XWdwzeuCYBLkp34hmMBkvhG7CMggUu6Qgrw5PswohIXOJ7zC/EKVH8HY9+Gs6c0RfMStP1DPnEbAdnqgEC38trclPOG4iEwdSnc9Sz5xLEAWV6B1+fBg2/2Plc8WCIshlHPky8cC9CV+fzkX2HMG5nziiTCW7/nTQS3AvT576qCpjRCRU32ckaEKb/B8Cewfgu45NJW4JF34d5XCUXJDanX4Tq7g1fHEXBJJbizmX4x+FZ45hNsMrB1wL51mqGvol+MnwFDh2OLgW8Gt/0Jc57T6t0ZQmNEsIQfzWDrcvjpZYlwmlA8NBVb+NEMGrYv07LsJEIxpBTKH8MG/ghg2PoHNM8mFOWPYoOB7QdkYuVn4crdcjc28E+A47vg5P7c5UqGYgM/vwAxY4BcdHZgA/8EGDkh3NNtP4wN/BPgxZB1wP4N2MBtHTBs9OXzTB+/dr5mgkJ+pLJrNTZwGwEP1ELHCTi24+K5QSVwx1gY/UroP8Pu/1VZ7sYG7l8BMwK8Wtb9gC0K7zvAUwdhzTfYovAEaPpAY4Z2bFFYAjR/Cevthb+hcATY8DMsmY5t/OsKZ2L1VzDfzBjbX1rzOwI6jsOi92DjL+QLfwXYrKnwxmnqM+wkn9gToGUR3PkUV8SR7XC0VdYGB1v0vmuR5PBWXGC+FPVvzdohphLsx2xkxEhy1Aiwl7gSsDfeApAS4D/iy1ojwDziy5xEUN8dAfn9DMNPVsn3temu8EziRoIZqURIib+VhFyRiASzg7rULpmegyGjyAqij/Hxwupq742Tn1JKB2a69XaiSRslPB58xIH0iV7D4e6Mm7o3UCwmejTJt4qezhsybp7WMn5AA2ap9kPZeAqbVfLmc+pYGAR9xz1Brqs1WKpQqRpd+oIOzd7icgph+3zAUt3zAlXwW7JdcB4AAP//IGAGgAAAAAZJREFUAwCHp+3yoriwmAAAAABJRU5ErkJggg==">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2213%22 fill=%22%23ff8000%22/%3E%3Cg transform=%22translate%2814 14%29 scale%280.0703125%29%22%3E%3Cpath fill=%22%23fff%22 d=%22m73.474 0c-7.4644 0-13.474 6.0093-13.474 13.474v485.05c0 7.4644 6.0093 13.474 13.474 13.474h188.69c81.55 0 155.51-49.421 186.72-124.76 31.208-75.343 13.852-162.59-43.813-220.25l-57.163-57.163c-5.2781-5.2781-13.777-5.2781-19.055 0l-76.218 76.218c-5.2781 5.2781-5.2781 13.777 0 19.055l57.166 57.163c19.404 19.404 25.104 48.063 14.603 73.416-10.501 25.353-34.795 41.589-62.237 41.589 0 0-47.283-0.0164-53.955 0s-13.387-6.5755-13.474-13.474c-0.0866-6.8982 0-350.32 0-350.32 0-7.4644-6.0093-13.474-13.474-13.474z%22/%3E%3C/g%3E%3C/svg%3E">
@@ -504,12 +516,19 @@
     header .actions .site-link { display: none; }
   }
   @media (max-width: 480px) {
-    /* 0–5 på första raden, 6–10 på andra – större tryckytor */
-    .nps-scale { grid-template-columns: repeat(6, 1fr); gap: 6px; }
-    .nps-btn { padding: 13px 0; font-size: 15px; }
+    /* Alla elva betyg på en rad (bryts inte), smala men 44 px höga tryckytor */
+    .nps-scale { grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 3px; }
+    .nps-btn { padding: 0; min-height: 44px; font-size: 14px; border-radius: 8px; }
+    .nps-btn.selected { box-shadow: none; }
     .contact-row { flex-direction: column; }
     .contact-btn { padding: 12px 18px; }
   }
+  @media (max-width: 340px) {
+    .nps-scale { gap: 2px; }
+    .nps-btn { font-size: 13px; border-radius: 6px; }
+  }
+  /* Dolt fält för botar (honeypot) */
+  .hp-field { position: absolute !important; left: -10000px !important; width: 1px; height: 1px; overflow: hidden; }
 </style>
 </head>
 <body>
@@ -588,6 +607,11 @@
         <p class="privacy-note" data-i18n="anon_note">Vi sparar inte vem du är. Skriv inte namn eller kontaktuppgifter i fritexten om du vill vara anonym.</p>
       </div>
 
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Lämna tomt</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
       <button type="submit" class="submit-btn" id="submitBtn" data-i18n="submit">Skicka svar</button>
     </form>
   </div>
@@ -617,6 +641,7 @@
     <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
     <h2 data-i18n="dup_title">Du har redan svarat</h2>
     <p data-i18n="dup_text">Tack! Vi har redan fått ett svar från den här webbläsaren.</p>
+    <div id="alreadyContactSlot"></div>
   </div>
 
   <div class="card state error" id="errorCard" style="display:none">
@@ -675,6 +700,7 @@ const I18N = {
     ok_text: 'Din feedback hjälper oss förbättra Biluppgifter.',
     c_title: 'Vill du att vi hör av oss?',
     c_text: 'Helt frivilligt. E-postadressen sparas separat och kopplas bara till ditt svar om du kryssar i rutan nedan.',
+    c_text_dup: 'Helt frivilligt. E-postadressen sparas separat och kopplas inte till ditt svar.',
     c_consent: 'Jag samtycker till att Biluppgifter kopplar min e-postadress till mitt svar, så att ni kan följa upp det med mig.',
     ph_email: 'din@arbetsmail.se',
     c_btn: 'Kontakta mig',
@@ -723,6 +749,7 @@ const I18N = {
     ok_text: 'Your feedback helps us improve Biluppgifter.',
     c_title: 'Would you like us to get in touch?',
     c_text: 'Completely optional. Your email is stored separately and is only linked to your answer if you tick the box below.',
+    c_text_dup: 'Completely optional. Your email is stored separately and is not linked to your answer.',
     c_consent: 'I agree that Biluppgifter may link my email address to my answer so you can follow up with me.',
     ph_email: 'you@company.com',
     c_btn: 'Contact me',
@@ -750,8 +777,12 @@ const store = {
 const qs = new URLSearchParams(location.search);
 const clean = (v) => (v || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
 const KANAL = clean(qs.get('kanal'));
-const OMGANG = clean(qs.get('omgang'));
-const DUP_KEY = 'nps_answered_' + (OMGANG || 'default');
+// Saknas ?omgang= i länken används aktuellt kvartal (t.ex. 2026q4), så att
+// spärren mot dubbelsvar nollställs till nästa utskick även om parametern glöms.
+const currentQuarter = () => { const d = new Date(); return d.getFullYear() + 'q' + (Math.floor(d.getMonth() / 3) + 1); };
+const OMGANG = clean(qs.get('omgang')) || currentQuarter();
+const DUP_KEY = 'nps_answered_' + OMGANG;
+const CONTACT_KEY = 'nps_contacted_' + OMGANG;
 
 // ---- Språk ----
 function initialLang() {
@@ -939,6 +970,7 @@ $('npsForm').addEventListener('submit', async (e) => {
       lang: lang,
       kanal: KANAL,
       omgang: OMGANG,
+      hp: $('website').value,
     });
     store.set(DUP_KEY, String(Date.now()));
     show('successCard');
@@ -971,7 +1003,9 @@ $('contactForm').addEventListener('submit', async (e) => {
       lang: lang,
       link_consent: consent,
       response_id: consent ? RESPONSE_ID : '',
+      hp: $('website').value,
     });
+    store.set(CONTACT_KEY, String(Date.now()));
     $('contactForm').style.display = 'none';
     $('contactDone').style.display = '';
   } catch (ex) {
@@ -986,7 +1020,24 @@ $('contactForm').addEventListener('submit', async (e) => {
 applyLang();
 (function checkDuplicate() {
   const ts = Number(store.get(DUP_KEY));
-  if (ts && Date.now() - ts < DUPLICATE_WINDOW_DAYS * 86400000) show('alreadyCard');
+  if (ts && Date.now() - ts < DUPLICATE_WINDOW_DAYS * 86400000) {
+    // Visa kontaktformuläret även här. Svar-ID:t finns inte kvar efter omladdning,
+    // så samtyckesrutan (koppling till svaret) döljs.
+    const slot = $('alreadyContactSlot');
+    slot.appendChild($('contactForm'));
+    slot.appendChild($('contactDone'));
+    const consentRow = document.querySelector('#contactForm .consent-row');
+    if (consentRow) consentRow.style.display = 'none';
+    $('linkConsent').checked = false;
+    const helper = document.querySelector('#contactForm .helper');
+    if (helper) helper.dataset.i18n = 'c_text_dup';
+    applyLang();
+    show('alreadyCard');
+  }
+  if (store.get(CONTACT_KEY)) {
+    $('contactForm').style.display = 'none';
+    $('contactDone').style.display = '';
+  }
 })();
 </script>
 </body>
