@@ -456,6 +456,24 @@
   .chip.is-disabled:hover { border-color: var(--border); background: var(--panel-2); color: var(--text); }
   .consent-row { margin: 0 0 14px; font-size: 13.5px; line-height: 1.5; }
 
+  /* ===== Mobil/touch ===== */
+  button, .chip, .nps-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  @media (hover: none) {
+    /* Ingen "fastnad" hover-färg efter tryck på mobil */
+    .chip:hover, .nps-btn:hover { border-color: var(--border); background: var(--panel-2); color: var(--text); }
+    .chip.selected:hover, .nps-btn.selected:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .chip.is-disabled:hover { background: var(--panel-2); }
+  }
+  @media (pointer: coarse) {
+    .chip { min-height: 44px; }
+    .lang-toggle button { padding: 8px 10px; }
+    .checkbox-row input[type=checkbox] { width: 20px; height: 20px; margin-top: 1px; }
+  }
+  @media (max-width: 640px) {
+    /* 16px förhindrar att iPhone zoomar in när man trycker i ett fält */
+    textarea, input[type=email], input[type=text] { font-size: 16px; }
+  }
+
   .contact-block {
     text-align: left;
     margin-top: 28px;
@@ -849,7 +867,8 @@ reasonChips.forEach(chip => {
       selectedReasons = selectedReasons.filter(x => x !== v);
     } else if (selectedReasons.length < MAX_REASONS) {
       selectedReasons.push(v);
-      if (v === 'Annat') setTimeout(() => reasonOther.focus(), 0);
+      // På dator: fokus direkt i fritextfältet. På mobil: låt bli, så tangentbordet inte hoppar upp.
+      if (v === 'Annat' && !matchMedia('(pointer: coarse)').matches) setTimeout(() => reasonOther.focus(), 0);
     }
     renderReasons();
   });
