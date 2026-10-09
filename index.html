@@ -257,7 +257,7 @@
   }
 
   /* ============ INPUTS ============ */
-  textarea, input[type=email] {
+  textarea, input[type=email], input[type=text] {
     width: 100%;
     background: var(--panel-2);
     border: 1px solid var(--border);
@@ -272,7 +272,7 @@
     min-height: 90px;
     resize: vertical;
   }
-  textarea:focus, input[type=email]:focus {
+  textarea:focus, input[type=email]:focus, input[type=text]:focus {
     outline: none;
     border-color: var(--accent);
     background: var(--panel);
@@ -426,15 +426,30 @@
     font-family: inherit;
     font-size: 12.5px;
     font-weight: 600;
-    padding: 5px 11px;
+    padding: 5px 8px;
     border-radius: 999px;
     cursor: pointer;
-    min-width: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
   }
-  .lang-toggle button[aria-pressed="true"] { background: var(--accent); color: #fff; }
-  .lang-toggle button:hover:not([aria-pressed="true"]) { color: #fff; }
+  .lang-toggle .flag {
+    width: 26px;
+    height: 18px;
+    border-radius: 3px;
+    display: block;
+    opacity: 0.45;
+    filter: grayscale(0.4);
+    transition: opacity 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
+  }
+  .lang-toggle button[aria-pressed="true"] { background: var(--accent); }
+  .lang-toggle button[aria-pressed="true"] .flag { opacity: 1; filter: none; }
+  .lang-toggle button:hover:not([aria-pressed="true"]) .flag { opacity: 0.85; filter: none; }
 
   .field-block .privacy-note { margin-top: 10px; }
+  .other-input { margin-top: 12px; }
 
   .contact-block {
     text-align: left;
@@ -487,8 +502,8 @@
   </a>
   <div class="actions">
     <div class="lang-toggle" role="group" id="langToggle" aria-label="Språk">
-      <button type="button" data-lang="sv" aria-pressed="true">SV</button>
-      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="sv" aria-pressed="true" aria-label="Svenska" title="Svenska"><svg class="flag" viewBox="0 0 16 10" aria-hidden="true" preserveAspectRatio="none"><rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/></svg></button>
+      <button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true" preserveAspectRatio="none"><clipPath id="gbClip"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="gbDiag"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#gbClip)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#gbDiag)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg></button>
     </div>
     <a href="https://www.biluppgifter.se" target="_blank" rel="noopener" class="site-link">biluppgifter.se</a>
   </div>
@@ -529,7 +544,23 @@
       </div>
 
       <div class="field-block">
-        <label class="q" for="reason"><span id="reasonQ">Vad är den främsta anledningen till ditt betyg?</span> <span class="optional" data-i18n="optional">Valfritt</span></label>
+        <label class="q" id="reasonLabel"><span data-i18n="q_reason">Vad är den främsta anledningen till ditt betyg?</span> <span class="optional" data-i18n="opt_single">Valfritt — välj ett alternativ</span></label>
+        <div class="multi-select" id="reasonGroup" role="radiogroup" aria-labelledby="reasonLabel">
+          <button type="button" class="chip" role="radio" data-value="Datakvalitet och täckning" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_data">Datakvalitet och täckning</span></button>
+          <button type="button" class="chip" role="radio" data-value="Enkelt att komma igång" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_easy">Enkelt att komma igång</span></button>
+          <button type="button" class="chip" role="radio" data-value="Pris och värde för pengarna" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_price">Pris och värde för pengarna</span></button>
+          <button type="button" class="chip" role="radio" data-value="Snabbhet/leveranstid" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_speed">Snabbhet/leveranstid</span></button>
+          <button type="button" class="chip" role="radio" data-value="Support" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_support">Support</span></button>
+          <button type="button" class="chip" role="radio" data-value="Saknar en funktion jag behöver" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_feature">Saknar en funktion jag behöver</span></button>
+          <button type="button" class="chip" role="radio" data-value="Träffsäkerhet i Urval" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_urval">Träffsäkerhet i Urval</span></button>
+          <button type="button" class="chip" role="radio" data-value="Byter/överväger annan leverantör" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_switch">Byter/överväger annan leverantör</span></button>
+          <button type="button" class="chip" role="radio" data-value="Annat" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_other">Annat (fritext)</span></button>
+        </div>
+        <input type="text" id="reasonOther" class="other-input" maxlength="200" data-i18n-ph="ph_other" placeholder="Beskriv kort…" style="display:none" aria-label="Annat" />
+      </div>
+
+      <div class="field-block">
+        <label class="q" for="reason"><span data-i18n="q_elaborate">Vill du utveckla?</span> <span class="optional" data-i18n="optional">Valfritt</span></label>
         <textarea id="reason" rows="3" maxlength="2000" data-i18n-ph="ph_reason" placeholder="Berätta gärna…"></textarea>
         <p class="privacy-note" data-i18n="anon_note">Vi sparar inte vem du är. Skriv inte namn eller kontaktuppgifter i fritexten om du vill vara anonym.</p>
       </div>
@@ -595,9 +626,18 @@ const I18N = {
     opt_multi: 'Valfritt — välj en eller flera',
     u_api: 'API', u_file: 'Filleverans', u_pro: 'PRO', u_urval: 'Urval', u_similar: 'Liknande till salu',
     q_reason: 'Vad är den främsta anledningen till ditt betyg?',
-    q_reason_low: 'Vad skulle vi behöva göra bättre?',
-    q_reason_mid: 'Vad skulle få dig att ge ett högre betyg?',
-    q_reason_high: 'Vad uppskattar du mest med Biluppgifter?',
+    opt_single: 'Valfritt — välj ett alternativ',
+    r_data: 'Datakvalitet och täckning',
+    r_easy: 'Enkelt att komma igång',
+    r_price: 'Pris och värde för pengarna',
+    r_speed: 'Snabbhet/leveranstid',
+    r_support: 'Support',
+    r_feature: 'Saknar en funktion jag behöver',
+    r_urval: 'Träffsäkerhet i Urval',
+    r_switch: 'Byter/överväger annan leverantör',
+    r_other: 'Annat (fritext)',
+    ph_other: 'Beskriv kort…',
+    q_elaborate: 'Vill du utveckla?',
     optional: 'Valfritt',
     ph_reason: 'Berätta gärna…',
     anon_note: 'Vi sparar inte vem du är. Skriv inte namn eller kontaktuppgifter i fritexten om du vill vara anonym.',
@@ -633,9 +673,18 @@ const I18N = {
     opt_multi: 'Optional — choose one or more',
     u_api: 'API', u_file: 'File delivery', u_pro: 'PRO', u_urval: 'Urval (selections)', u_similar: 'Similar for sale',
     q_reason: 'What is the main reason for your score?',
-    q_reason_low: 'What should we do better?',
-    q_reason_mid: 'What would make you give us a higher score?',
-    q_reason_high: 'What do you value most about Biluppgifter?',
+    opt_single: 'Optional — choose one',
+    r_data: 'Data quality and coverage',
+    r_easy: 'Easy to get started',
+    r_price: 'Price and value for money',
+    r_speed: 'Speed/delivery time',
+    r_support: 'Support',
+    r_feature: 'Missing a feature I need',
+    r_urval: 'Accuracy in Urval (selections)',
+    r_switch: 'Switching/considering another provider',
+    r_other: 'Other (free text)',
+    ph_other: 'Briefly describe…',
+    q_elaborate: 'Would you like to elaborate?',
     optional: 'Optional',
     ph_reason: 'Tell us more…',
     anon_note: 'We do not store who you are. Avoid writing your name or contact details in the text if you want to stay anonymous.',
@@ -699,7 +748,7 @@ function applyLang() {
   document.querySelectorAll('.nps-btn').forEach(b => {
     b.setAttribute('aria-label', t('score_aria').replace('{n}', b.dataset.score));
   });
-  updateReasonQuestion();
+  $('reasonOther').setAttribute('aria-label', t('r_other'));
   if ($('npsError').textContent) $('npsError').textContent = t('err_score');
   if (submitBtn.disabled) submitBtn.textContent = t('sending');
 }
@@ -718,14 +767,6 @@ const npsError = $('npsError');
 const submitBtn = $('submitBtn');
 let selectedScore = null;
 
-function updateReasonQuestion() {
-  let key = 'q_reason';
-  if (selectedScore !== null) {
-    key = selectedScore <= 6 ? 'q_reason_low' : selectedScore <= 8 ? 'q_reason_mid' : 'q_reason_high';
-  }
-  $('reasonQ').textContent = t(key);
-}
-
 function selectScore(i) {
   selectedScore = i;
   npsError.textContent = '';
@@ -735,7 +776,6 @@ function selectScore(i) {
     b.setAttribute('aria-checked', on ? 'true' : 'false');
     b.tabIndex = on ? 0 : -1;
   });
-  updateReasonQuestion();
 }
 
 for (let i = 0; i <= 10; i++) {
@@ -769,6 +809,29 @@ document.querySelectorAll('#usageGroup .chip').forEach(chip => {
   chip.addEventListener('click', () => {
     const on = chip.classList.toggle('selected');
     chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+});
+
+// ---- Främsta anledning (ett val, klick igen avmarkerar) ----
+const reasonChips = Array.from(document.querySelectorAll('#reasonGroup .chip'));
+const reasonOther = $('reasonOther');
+let selectedReason = '';
+
+function selectReason(value) {
+  selectedReason = value;
+  reasonChips.forEach(c => {
+    const on = c.dataset.value === value;
+    c.classList.toggle('selected', on);
+    c.setAttribute('aria-checked', on ? 'true' : 'false');
+  });
+  const isOther = value === 'Annat';
+  reasonOther.style.display = isOther ? '' : 'none';
+  if (isOther) reasonOther.focus();
+}
+
+reasonChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    selectReason(chip.dataset.value === selectedReason ? '' : chip.dataset.value);
   });
 });
 
@@ -819,6 +882,8 @@ $('npsForm').addEventListener('submit', async (e) => {
     await post({
       type: 'response',
       score: selectedScore,
+      reason: selectedReason,
+      reason_other: selectedReason === 'Annat' ? reasonOther.value.trim() : '',
       comment: $('reason').value.trim(),
       usage: usage,
       lang: lang,
