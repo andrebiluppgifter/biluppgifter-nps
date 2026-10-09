@@ -452,6 +452,9 @@
 
   .field-block .privacy-note { margin-top: 10px; }
   .other-input { margin-top: 12px; }
+  .chip.is-disabled { opacity: 0.45; cursor: not-allowed; }
+  .chip.is-disabled:hover { border-color: var(--border); background: var(--panel-2); color: var(--text); }
+  .consent-row { margin: 0 0 14px; font-size: 13.5px; line-height: 1.5; }
 
   .contact-block {
     text-align: left;
@@ -520,7 +523,7 @@
           <path d="M1412.29 72.17c-11.04-5.78-20.07-14.33-85.46-25.24-22.37-3.63-44.69-7.56-67.07-11.04-167.11-22.06-181.65-21.24-304.94-30.56C888.78 1.39 822.57 1.1 756.44 0c-46.63-.11-93.27 1.56-139.89 2.5C365.5 13.55 452.86 7.68 277.94 23.15 202.57 33.32 127.38 45.01 52.07 55.69c-11.23 2.41-22.63 4.17-33.71 7.22C6.1 66.33 5.64 66.19 3.89 67.79c-7.99 5.78-2.98 20.14 8.72 17.5 33.99-9.47 32.28-8.57 178.06-29.66 4.26 4.48 7.29 3.38 18.42 3.11 13.19-.32 26.38-.53 39.56-1.12 53.51-3.81 106.88-9.62 160.36-13.95 18.41-1.3 36.8-3.12 55.21-4.7 23.21-1.16 46.43-2.29 69.65-3.4 120.28-2.16 85.46-3.13 234.65-1.52 23.42.99 1.57-.18 125.72 6.9 96.61 8.88 200.92 27.94 295.42 46.12 40.87 7.91 116.67 23.2 156.31 36.78 3.81 1.05 8.28-.27 10.51-3.58 3.17-3.72 2.66-9.7-.78-13.13-3.25-3.12-8.14-3.44-12.18-5.08-17.89-5.85-44.19-12.09-63.67-16.56l26.16 3.28c23.02 3.13 46.28 3.92 69.34 6.75 10.8.96 25.43 1.81 34.34-4.39 2.26-1.54 4.86-2.75 6.21-5.27 2.76-4.59 1.13-11.06-3.59-13.68ZM925.4 23.77c37.64 1.4 153.99 10.85 196.64 17.19 24.25 4.77 74.13 11.21 101.72 18.14-11.87-1.15-23.77-1.97-35.65-3.06-133.46-15.9-266.8-33.02-400.47-47.21Z"/>
         </svg>
       </h1>
-      <p class="lede" data-i18n="lede">Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt.</p>
+      <p class="lede" data-i18n="lede">Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt om du inte själv väljer annat.</p>
     </div>
 
     <form id="npsForm" autocomplete="off" novalidate>
@@ -535,7 +538,7 @@
       </div>
 
       <div class="field-block">
-        <label class="q"><span data-i18n="q_usage">Hur använder du Biluppgifter?</span> <span class="optional" data-i18n="opt_multi">Valfritt — välj en eller flera</span></label>
+        <label class="q"><span data-i18n="q_usage">Vilka av Biluppgifters tjänster använder ditt företag?</span> <span class="optional" data-i18n="opt_multi">Valfritt — välj en eller flera</span></label>
         <div class="multi-select" id="usageGroup">
           <button type="button" class="chip" data-value="API" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_api">API</span></button>
           <button type="button" class="chip" data-value="Filleverans" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_file">Filleverans</span></button>
@@ -546,17 +549,17 @@
       </div>
 
       <div class="field-block">
-        <label class="q" id="reasonLabel"><span data-i18n="q_reason">Vad är den främsta anledningen till ditt betyg?</span> <span class="optional" data-i18n="opt_single">Valfritt — välj ett alternativ</span></label>
-        <div class="multi-select" id="reasonGroup" role="radiogroup" aria-labelledby="reasonLabel">
-          <button type="button" class="chip" role="radio" data-value="Datakvalitet och täckning" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_data">Datakvalitet och täckning</span></button>
-          <button type="button" class="chip" role="radio" data-value="Enkelt att komma igång" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_easy">Enkelt att komma igång</span></button>
-          <button type="button" class="chip" role="radio" data-value="Pris och värde för pengarna" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_price">Pris och värde för pengarna</span></button>
-          <button type="button" class="chip" role="radio" data-value="Snabbhet/leveranstid" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_speed">Snabbhet/leveranstid</span></button>
-          <button type="button" class="chip" role="radio" data-value="Support" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_support">Support</span></button>
-          <button type="button" class="chip" role="radio" data-value="Saknar en funktion jag behöver" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_feature">Saknar en funktion jag behöver</span></button>
-          <button type="button" class="chip" role="radio" data-value="Träffsäkerhet i Urval" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_urval">Träffsäkerhet i Urval</span></button>
-          <button type="button" class="chip" role="radio" data-value="Byter/överväger annan leverantör" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_switch">Byter/överväger annan leverantör</span></button>
-          <button type="button" class="chip" role="radio" data-value="Annat" aria-checked="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_other">Annat (fritext)</span></button>
+        <label class="q" id="reasonLabel"><span data-i18n="q_reason">Vad påverkar framför allt ditt betyg?</span> <span class="optional" data-i18n="opt_max2">Valfritt — välj högst två</span></label>
+        <div class="multi-select" id="reasonGroup" role="group" aria-labelledby="reasonLabel">
+          <button type="button" class="chip" data-value="Datakvalitet och täckning" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_data">Datakvalitet och täckning</span></button>
+          <button type="button" class="chip" data-value="Enkelt att komma igång" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_easy">Enkelt att komma igång</span></button>
+          <button type="button" class="chip" data-value="Pris och värde för pengarna" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_price">Pris och värde för pengarna</span></button>
+          <button type="button" class="chip" data-value="Snabbhet/leveranstid" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_speed">Snabbhet/leveranstid</span></button>
+          <button type="button" class="chip" data-value="Support" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_support">Support</span></button>
+          <button type="button" class="chip" data-value="Saknar en funktion jag behöver" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_feature">Saknar en funktion jag behöver</span></button>
+          <button type="button" class="chip" data-value="Träffsäkerhet i Urval" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_urval">Träffsäkerhet i Urval</span></button>
+          <button type="button" class="chip" data-value="Byter/överväger annan leverantör" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_switch">Byter/överväger annan leverantör</span></button>
+          <button type="button" class="chip" data-value="Annat" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="r_other">Annat (fritext)</span></button>
         </div>
         <input type="text" id="reasonOther" class="other-input" maxlength="200" data-i18n-ph="ph_other" placeholder="Beskriv kort…" style="display:none" aria-label="Annat" />
       </div>
@@ -579,6 +582,10 @@
     <form class="contact-block" id="contactForm" novalidate>
       <label class="q" for="email" data-i18n="c_title">Vill du att vi hör av oss?</label>
       <p class="helper" data-i18n="c_text">Helt frivilligt. E-postadressen sparas separat och kopplas inte till ditt svar.</p>
+      <label class="checkbox-row consent-row">
+        <input type="checkbox" id="linkConsent" />
+        <span data-i18n="c_consent">Jag samtycker till att Biluppgifter kopplar min e-postadress till mitt svar, så att ni kan följa upp det med mig.</span>
+      </label>
       <div class="contact-row">
         <input type="email" id="email" maxlength="200" data-i18n-ph="ph_email" placeholder="din@arbetsmail.se" autocomplete="email" />
         <button type="submit" class="contact-btn" id="contactBtn" data-i18n="c_btn">Kontakta mig</button>
@@ -620,15 +627,15 @@ const I18N = {
   sv: {
     sublabel: 'Hitta rätt data för ert behov',
     title: 'Hjälp oss bli bättre',
-    lede: 'Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt.',
+    lede: 'Det tar under en minut och betyder mycket för oss. Ditt svar är anonymt om du inte själv väljer annat.',
     q_nps: 'Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?',
     scale_low: 'Inte alls troligt',
     scale_high: 'Mycket troligt',
-    q_usage: 'Hur använder du Biluppgifter?',
+    q_usage: 'Vilka av Biluppgifters tjänster använder ditt företag?',
     opt_multi: 'Valfritt — välj en eller flera',
     u_api: 'API', u_file: 'Filleverans', u_pro: 'PRO', u_urval: 'Urval', u_similar: 'Liknande till salu',
-    q_reason: 'Vad är den främsta anledningen till ditt betyg?',
-    opt_single: 'Valfritt — välj ett alternativ',
+    q_reason: 'Vad påverkar framför allt ditt betyg?',
+    opt_max2: 'Valfritt — välj högst två',
     r_data: 'Datakvalitet och täckning',
     r_easy: 'Enkelt att komma igång',
     r_price: 'Pris och värde för pengarna',
@@ -649,7 +656,8 @@ const I18N = {
     ok_title: 'Tack för ditt svar!',
     ok_text: 'Din feedback hjälper oss förbättra Biluppgifter.',
     c_title: 'Vill du att vi hör av oss?',
-    c_text: 'Helt frivilligt. E-postadressen sparas separat och kopplas inte till ditt svar.',
+    c_text: 'Helt frivilligt. E-postadressen sparas separat och kopplas bara till ditt svar om du kryssar i rutan nedan.',
+    c_consent: 'Jag samtycker till att Biluppgifter kopplar min e-postadress till mitt svar, så att ni kan följa upp det med mig.',
     ph_email: 'din@arbetsmail.se',
     c_btn: 'Kontakta mig',
     c_done: 'Tack! Vi hör av oss.',
@@ -667,15 +675,15 @@ const I18N = {
   en: {
     sublabel: 'Find the right data for your needs',
     title: 'Help us improve',
-    lede: 'It takes less than a minute and means a lot to us. Your answer is anonymous.',
+    lede: 'It takes less than a minute and means a lot to us. Your answer is anonymous unless you choose otherwise.',
     q_nps: 'How likely are you to recommend Biluppgifter to a colleague or friend?',
     scale_low: 'Not at all likely',
     scale_high: 'Extremely likely',
-    q_usage: 'How do you use Biluppgifter?',
+    q_usage: 'Which of Biluppgifter\'s services does your company use?',
     opt_multi: 'Optional — choose one or more',
     u_api: 'API', u_file: 'File delivery', u_pro: 'PRO', u_urval: 'Urval (selections)', u_similar: 'Similar for sale',
-    q_reason: 'What is the main reason for your score?',
-    opt_single: 'Optional — choose one',
+    q_reason: 'What mainly affects your score?',
+    opt_max2: 'Optional — choose up to two',
     r_data: 'Data quality and coverage',
     r_easy: 'Easy to get started',
     r_price: 'Price and value for money',
@@ -696,7 +704,8 @@ const I18N = {
     ok_title: 'Thank you for your answer!',
     ok_text: 'Your feedback helps us improve Biluppgifter.',
     c_title: 'Would you like us to get in touch?',
-    c_text: 'Completely optional. Your email is stored separately and is not linked to your answer.',
+    c_text: 'Completely optional. Your email is stored separately and is only linked to your answer if you tick the box below.',
+    c_consent: 'I agree that Biluppgifter may link my email address to my answer so you can follow up with me.',
     ph_email: 'you@company.com',
     c_btn: 'Contact me',
     c_done: 'Thanks! We will be in touch.',
@@ -814,26 +823,35 @@ document.querySelectorAll('#usageGroup .chip').forEach(chip => {
   });
 });
 
-// ---- Främsta anledning (ett val, klick igen avmarkerar) ----
+// ---- Vad påverkar betyget (högst två val, klick igen avmarkerar) ----
+const MAX_REASONS = 2;
 const reasonChips = Array.from(document.querySelectorAll('#reasonGroup .chip'));
 const reasonOther = $('reasonOther');
-let selectedReason = '';
+let selectedReasons = [];
 
-function selectReason(value) {
-  selectedReason = value;
+function renderReasons() {
+  const full = selectedReasons.length >= MAX_REASONS;
   reasonChips.forEach(c => {
-    const on = c.dataset.value === value;
+    const on = selectedReasons.includes(c.dataset.value);
     c.classList.toggle('selected', on);
-    c.setAttribute('aria-checked', on ? 'true' : 'false');
+    c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    const blocked = full && !on;
+    c.classList.toggle('is-disabled', blocked);
+    c.setAttribute('aria-disabled', blocked ? 'true' : 'false');
   });
-  const isOther = value === 'Annat';
-  reasonOther.style.display = isOther ? '' : 'none';
-  if (isOther) reasonOther.focus();
+  reasonOther.style.display = selectedReasons.includes('Annat') ? '' : 'none';
 }
 
 reasonChips.forEach(chip => {
   chip.addEventListener('click', () => {
-    selectReason(chip.dataset.value === selectedReason ? '' : chip.dataset.value);
+    const v = chip.dataset.value;
+    if (selectedReasons.includes(v)) {
+      selectedReasons = selectedReasons.filter(x => x !== v);
+    } else if (selectedReasons.length < MAX_REASONS) {
+      selectedReasons.push(v);
+      if (v === 'Annat') setTimeout(() => reasonOther.focus(), 0);
+    }
+    renderReasons();
   });
 });
 
@@ -866,6 +884,13 @@ function show(id) {
   });
 }
 
+let RESPONSE_ID = '';
+function newResponseId() {
+  try { if (crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+  const a = new Uint8Array(16); crypto.getRandomValues(a);
+  return Array.from(a, b => b.toString(16).padStart(2, '0')).join('');
+}
+
 $('npsForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (selectedScore === null) {
@@ -875,6 +900,9 @@ $('npsForm').addEventListener('submit', async (e) => {
   }
   submitBtn.disabled = true;
   submitBtn.textContent = t('sending');
+  // Slumpat ID utan koppling till person. Används bara om respondenten
+  // uttryckligen samtycker till att e-postadressen kopplas till svaret.
+  if (!RESPONSE_ID) RESPONSE_ID = newResponseId();
 
   const usage = Array.from(document.querySelectorAll('#usageGroup .chip.selected'))
     .map(c => c.dataset.value)
@@ -884,8 +912,9 @@ $('npsForm').addEventListener('submit', async (e) => {
     await post({
       type: 'response',
       score: selectedScore,
-      reason: selectedReason,
-      reason_other: selectedReason === 'Annat' ? reasonOther.value.trim() : '',
+      reason: selectedReasons.join(', '),
+      reason_other: selectedReasons.includes('Annat') ? reasonOther.value.trim() : '',
+      response_id: RESPONSE_ID,
       comment: $('reason').value.trim(),
       usage: usage,
       lang: lang,
@@ -905,7 +934,7 @@ $('npsForm').addEventListener('submit', async (e) => {
 
 $('retryBtn').addEventListener('click', () => show('formCard'));
 
-// ---- Frivillig kontakt (separat, kopplas inte till svaret) ----
+// ---- Frivillig kontakt (kopplas till svaret endast vid uttryckligt samtycke) ----
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 $('contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -916,7 +945,14 @@ $('contactForm').addEventListener('submit', async (e) => {
   const btn = $('contactBtn');
   btn.disabled = true;
   try {
-    await post({ type: 'contact', email: email, lang: lang });
+    const consent = $('linkConsent').checked;
+    await post({
+      type: 'contact',
+      email: email,
+      lang: lang,
+      link_consent: consent,
+      response_id: consent ? RESPONSE_ID : '',
+    });
     $('contactForm').style.display = 'none';
     $('contactDone').style.display = '';
   } catch (ex) {
