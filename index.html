@@ -572,16 +572,6 @@
 
     <form id="npsForm" autocomplete="off" novalidate>
       <div class="field-block">
-        <label class="q" id="npsLabel" data-i18n="q_nps">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</label>
-        <div class="nps-scale" id="npsScale" role="radiogroup" aria-labelledby="npsLabel"></div>
-        <div class="nps-scale-labels">
-          <span data-i18n="scale_low">Inte alls troligt</span>
-          <span data-i18n="scale_high">Mycket troligt</span>
-        </div>
-        <div class="nps-error" id="npsError" role="alert"></div>
-      </div>
-
-      <div class="field-block">
         <label class="q"><span data-i18n="q_usage">Vilka av Biluppgifters tjänster använder ditt företag?</span> <span class="optional" data-i18n="opt_multi">Valfritt — välj en eller flera</span></label>
         <div class="multi-select" id="usageGroup">
           <button type="button" class="chip" data-value="API" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_api">API</span></button>
@@ -590,6 +580,16 @@
           <button type="button" class="chip" data-value="Urval" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_urval">Urval</span></button>
           <button type="button" class="chip" data-value="Liknande till salu" aria-pressed="false"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="u_similar">Liknande till salu</span></button>
         </div>
+      </div>
+
+      <div class="field-block">
+        <label class="q" id="npsLabel" data-i18n="q_nps">Hur troligt är det att du skulle rekommendera Biluppgifter till en kollega eller vän?</label>
+        <div class="nps-scale" id="npsScale" role="radiogroup" aria-labelledby="npsLabel"></div>
+        <div class="nps-scale-labels">
+          <span data-i18n="scale_low">Inte alls troligt</span>
+          <span data-i18n="scale_high">Mycket troligt</span>
+        </div>
+        <div class="nps-error" id="npsError" role="alert"></div>
       </div>
 
       <div class="field-block" id="reasonBlock" style="display:none">
@@ -994,6 +994,22 @@ async function post(payload) {
   }
 }
 
+// Automatiskt omförsök vid överbelastning/nätfel (t.ex. många svar samtidigt så att
+// Apps Script-låset inte hinner släppa). Säkert att skicka igen: Svar-ID gör att
+// scriptet bara sparar svaret en gång. Valideringsfel försöks inte igen.
+async function postWithRetry(payload) {
+  const delays = [1500, 4000, 8000];
+  for (let i = 0; ; i++) {
+    try {
+      return await post(payload);
+    } catch (err) {
+      const msg = String((err && err.message) || '');
+      if (/^(invalid_|unknown_type)/.test(msg) || i >= delays.length) throw err;
+      await new Promise(r => setTimeout(r, delays[i] + Math.random() * 1000));
+    }
+  }
+}
+
 function show(id) {
   ['formCard', 'successCard', 'alreadyCard', 'errorCard'].forEach(c => {
     $(c).style.display = c === id ? '' : 'none';
@@ -1046,7 +1062,7 @@ $('npsForm').addEventListener('submit', async (e) => {
     .join(', ');
 
   try {
-    await post({
+    await postWithRetry({
       type: 'response',
       score: selectedScore,
       reason: selectedReasons.join(', '),
