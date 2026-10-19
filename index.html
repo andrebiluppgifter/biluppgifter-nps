@@ -1094,6 +1094,12 @@ $('retryBtn').addEventListener('click', () => show('formCard'));
 
 // ---- Start ----
 applyLang();
+// Förifyllt betyg från mailet (?score=0–10). Identifierar ingen person.
+(function prefillScore() {
+  const raw = qs.get('score');
+  if (raw === null || !/^(10|[0-9])$/.test(raw.trim())) return;
+  selectScore(Number(raw.trim()));
+})();
 (function checkDuplicate() {
   const ts = Number(store.get(DUP_KEY));
   if (ts && Date.now() - ts < DUPLICATE_WINDOW_DAYS * 86400000) show('alreadyCard');
