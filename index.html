@@ -1053,6 +1053,7 @@ $('npsForm').addEventListener('submit', async (e) => {
   }
   submitBtn.disabled = true;
   submitBtn.textContent = t('sending');
+  SENDING = true;
   // Slumpat ID utan koppling till person. Används bara om respondenten
   // uttryckligen samtycker till att e-postadressen kopplas till svaret.
   if (!RESPONSE_ID) RESPONSE_ID = newResponseId();
@@ -1078,11 +1079,13 @@ $('npsForm').addEventListener('submit', async (e) => {
       hp: $('website').value,
     });
     store.set(DUP_KEY, String(Date.now()));
+    SUBMITTED = true;
     $('contactDone').style.display = wantsContact ? '' : 'none';
     show('successCard');
   } catch (err) {
     console.error('NPS submit failed:', err);
     show('errorCard');
+    SENDING = false;
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = t('submit');
@@ -1104,6 +1107,48 @@ applyLang();
   const ts = Number(store.get(DUP_KEY));
   if (ts && Date.now() - ts < DUPLICATE_WINDOW_DAYS * 86400000) show('alreadyCard');
 })();
+
+// ---- Spara betyget även om respondenten lämnar sidan utan att klicka Skicka ----
+// Den som klickat på en siffra i mailet ska räknas. Om formuläret inte skickas in
+// sparas betyget (utan övriga fält) när sidan stängs eller lämnas. Samma Svar-ID
+// används som vid Skicka, så scriptet sparar svaret högst en gång.
+let SUBMITTED = false;   // svaret är bekräftat av scriptet
+let SENDING = false;     // Skicka pågår – låt den vanliga sändningen bli klar
+let PARTIAL_SENT = false;
+function sendPartial() {
+  if (SUBMITTED || SENDING || PARTIAL_SENT || selectedScore === null) return;
+  if ($('alreadyCard').style.display !== 'none') return;
+  if (!RESPONSE_ID) RESPONSE_ID = newResponseId();
+  PARTIAL_SENT = true;
+  const body = JSON.stringify({
+    type: 'response',
+    score: selectedScore,
+    reason: '',
+    reason_other: '',
+    response_id: RESPONSE_ID,
+    comment: '',
+    usage: '',
+    lang: lang,
+    kanal: KANAL,
+    omgang: OMGANG,
+    contact_consent: false,
+    contact_email: '',
+    hp: '',
+  });
+  try {
+    fetch(NPS_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: body,
+      keepalive: true,
+    }).catch(() => {});
+  } catch (e) {}
+  try { store.set(DUP_KEY, String(Date.now())); } catch (e) {}
+}
+window.addEventListener('pagehide', sendPartial);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') sendPartial();
+});
 </script>
 </body>
 </html>
